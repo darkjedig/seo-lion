@@ -495,18 +495,24 @@ function showInternalLinkOptimizerDialog() {
     dialog.style.transform = 'translate(-50%, -50%)';
     dialog.innerHTML = `
     <div class="dialog-header">Internal Link Optimizer</div>
+    <label for="selected-text">Your Highlighted Text:</label>
     <textarea id="selected-text" placeholder="Highlighted text will appear here" rows="4"></textarea>
+    <label for="internal-urls">Your URLs for Internal Linking:</label>
     <textarea id="internal-urls" placeholder="Paste your list of internal URLs (one per line)" rows="4"></textarea>
+    <label for="optimizer-results">Internal Link Results:</label>
     <textarea id="optimizer-results" placeholder="Optimization results will appear here" rows="6" readonly></textarea>
-    <input type="text" id="api-key" placeholder="Enter your AI API key">
-    <div class="api-provider-container">
-        <select id="api-provider">
-            <option value="openai">OpenAI</option>
-            <option value="anthropic">Anthropic (Claude)</option>
-        </select>
+    <button id="find-internal-links">Find Internal Links</button>
+    <div class="api-settings">
+        <label for="api-key" class="api-key-label">Add your OpenAI or Anthropic API Key:</label>
+        <input type="text" id="api-key" placeholder="Enter your AI API key">
+        <div class="api-buttons">
+            <button id="save-api-key">Save API Key</button>
+            <select id="api-provider">
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic (Claude)</option>
+            </select>
+        </div>
     </div>
-    <button id="save-api-key">Save API Key</button>
-    <button id="optimize-internal-links">Optimize Internal Links</button>
     <button id="close-dialog">Close</button>
     `;
     document.body.appendChild(dialog);
@@ -519,7 +525,7 @@ function showInternalLinkOptimizerDialog() {
     makeDraggable(dialog);
 
     document.getElementById('save-api-key').addEventListener('click', saveApiKey);
-    document.getElementById('optimize-internal-links').addEventListener('click', submitInternalLinkOptimizerPrompt);
+    document.getElementById('find-internal-links').addEventListener('click', submitInternalLinkOptimizerPrompt);
     document.getElementById('close-dialog').addEventListener('click', closeDialog);
 
     // Add event listener for text selection
@@ -527,7 +533,8 @@ function showInternalLinkOptimizerDialog() {
 
     // Load saved data
     loadSavedData();
-}function makeDraggable(element) {
+}
+function makeDraggable(element) {
     const header = element.querySelector('.dialog-header');
     let isDragging = false;
     let startX, startY;
