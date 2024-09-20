@@ -495,13 +495,14 @@ function showInternalLinkOptimizerDialog() {
     dialog.style.transform = 'translate(-50%, -50%)';
     dialog.innerHTML = `
     <div class="dialog-header">Internal Link Optimizer</div>
-    <label for="selected-text">Your Highlighted Text:</label>
+    <label for="selected-text" class="input-label">Your Highlighted Text:</label>
     <textarea id="selected-text" placeholder="Highlighted text will appear here" rows="4"></textarea>
-    <label for="internal-urls">Your URLs for Internal Linking:</label>
+    <label for="internal-urls" class="input-label">Your URLs for Internal Linking:</label>
     <textarea id="internal-urls" placeholder="Paste your list of internal URLs (one per line)" rows="4"></textarea>
-    <label for="optimizer-results">Internal Link Results:</label>
+    <button id="find-internal-links">Analyse</button>
+    <hr class="section-divider">
+    <label for="optimizer-results" class="input-label">Internal Link Analysis Results:</label>
     <textarea id="optimizer-results" placeholder="Optimization results will appear here" rows="6" readonly></textarea>
-    <button id="find-internal-links">Find Internal Links</button>
     <div class="api-settings">
         <label for="api-key" class="api-key-label">Add your OpenAI or Anthropic API Key:</label>
         <input type="text" id="api-key" placeholder="Enter your AI API key">
