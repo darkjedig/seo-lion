@@ -625,7 +625,7 @@ function updateSelectedText(e) {
 }
 // Function to submit the Internal Link Optimizer prompt
 async function submitInternalLinkOptimizerPrompt() {
-    const button = document.getElementById('optimize-internal-links');
+    const button = document.getElementById('find-internal-links');
     showSpinner(button);
 
     try {
@@ -680,7 +680,6 @@ async function submitInternalLinkOptimizerPrompt() {
         hideSpinner(button, false);
     }
 }
-
 // Add this function to create and show the spinner
 function showSpinner(button) {
     const spinner = document.createElement('div');

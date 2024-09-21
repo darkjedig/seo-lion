@@ -403,7 +403,7 @@ body {
     overflow-y: auto !important; /* Add vertical scrolling if needed */
 }
 
-/* Spinner styles */
+/* Spinner styles-find internal links */
 .spinner {
     width: 20px;
     height: 20px;
@@ -420,6 +420,29 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+#find-internal-links {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+#find-internal-links.processing {
+    background-color: #FFA000 !important; /* Amber color */
+    color: #000000 !important;
+}
+
+#find-internal-links.success {
+    background-color: #4CAF50 !important; /* Green color */
+    color: #ffffff !important;
+}
+
+#find-internal-links.error {
+    background-color: #F44336 !important; /* Red color */
+    color: #ffffff !important;
+}
+
+
 
 /* Button state styles */
 #optimize-internal-links.processing {
@@ -485,12 +508,6 @@ body {
     color: #e0e0e0;
     font-family: 'Times New Roman', serif;
     font-weight: 400;
-}
-
-#find-internal-links {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    width: 100%;
 }
 
 .section-divider {
