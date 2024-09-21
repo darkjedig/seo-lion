@@ -168,7 +168,10 @@ function toggleSEOButtons() {
 }
 // Function to show keyword input dialog
 function showKeywordInput() {
-    closeExistingDialog();
+    if (currentDialogType !== 'internalLinkOptimizer') {
+        closeExistingDialog();
+    }
+    currentDialogType = 'keywordInput';
     const dialog = document.createElement('div');
     dialog.id = 'keyword-dialog';
     dialog.innerHTML = `
@@ -218,6 +221,7 @@ function showKeywordInput() {
     document.addEventListener('click', closeDialogOnClickOutside);
 }
 
+// Function to close dialog on click outside with dialog type check
 function closeDialogOnClickOutside(event) {
     const dialog = document.getElementById('keyword-dialog');
     if (dialog && !dialog.contains(event.target) && 
@@ -225,25 +229,34 @@ function closeDialogOnClickOutside(event) {
         event.target.id !== 'seo-blog-button' &&
         event.target.id !== 'outrank-button' &&
         event.target.id !== 'internal-link-optimizer-button') {
-        closeDialog();
+        
+        // Only close if the current dialog is not Internal Link Optimizer
+        if (currentDialogType !== 'internalLinkOptimizer') {
+            closeDialog();
+        }
     }
 }
 
 function closeExistingDialog() {
     const existingDialog = document.getElementById('keyword-dialog');
-    if (existingDialog) {
-        existingDialog.remove();
-        document.removeEventListener('click', closeDialogOnClickOutside);
+    if (existingDialog && currentDialogType !== 'internalLinkOptimizer') {
+        closeDialog();
     }
 }
 
-// Function to close the dialog
+
+// Function to close the dialog (single definition)
 function closeDialog() {
     const dialog = document.getElementById('keyword-dialog');
     if (dialog) {
         dialog.remove();
-        // Remove the selectionchange event listener
-        document.removeEventListener('selectionchange', updateSelectedText);
+        // Remove listeners based on dialog type
+        if (currentDialogType === 'internalLinkOptimizer') {
+            document.removeEventListener('selectionchange', updateSelectedText);
+        } else {
+            document.removeEventListener('click', closeDialogOnClickOutside);
+        }
+        currentDialogType = null;
     }
 }
 
@@ -294,7 +307,10 @@ function setInputFieldValue(inputField, value) {
 
 // Function to show the blog input form// Function to show the blog input form
 function showBlogInput() {
-    closeExistingDialog();
+    if (currentDialogType !== 'internalLinkOptimizer') {
+        closeExistingDialog();
+    }
+    currentDialogType = 'blogInput';
     const dialog = document.createElement('div');
     dialog.id = 'keyword-dialog';
     dialog.innerHTML = `
@@ -406,7 +422,10 @@ Respond with "Understood, I will complete all 9 steps, including adding at least
 }
 
 function showOutrankInput() {
-    closeExistingDialog();
+    if (currentDialogType !== 'internalLinkOptimizer') {
+        closeExistingDialog();
+    }
+    currentDialogType = 'outrankInput';
     const dialog = document.createElement('div');
     dialog.id = 'keyword-dialog';
     dialog.innerHTML = `
@@ -453,6 +472,7 @@ function showOutrankInput() {
     document.getElementById('submit-outrank').addEventListener('click', submitOutrankPrompt);
     document.addEventListener('click', closeDialogOnClickOutside);
 }
+///end change
 function submitOutrankPrompt() {
     try {
         const url = document.getElementById('url-input')?.value;
@@ -484,8 +504,18 @@ function submitOutrankPrompt() {
 
 
 // Function to show the Internal Link Optimizer dialog
+let currentDialogType = null;
+
 function showInternalLinkOptimizerDialog() {
+    const existingDialog = document.getElementById('keyword-dialog');
+    if (existingDialog && currentDialogType === 'internalLinkOptimizer') {
+        // If the dialog already exists, just bring it to the front
+        existingDialog.style.zIndex = '10000';
+        return;
+    }
+
     closeExistingDialog();
+    currentDialogType = 'internalLinkOptimizer';
     const dialog = document.createElement('div');
     dialog.id = 'keyword-dialog';
     dialog.classList.add('draggable');
@@ -809,9 +839,19 @@ function closeDialog() {
     const dialog = document.getElementById('keyword-dialog');
     if (dialog) {
         dialog.remove();
+        // Remove the selectionchange event listener only if it's the internal link optimizer
+        if (currentDialogType === 'internalLinkOptimizer') {
+            document.removeEventListener('selectionchange', updateSelectedText);
+        }
+        currentDialogType = null;
     }
 }
-
+function closeExistingDialog() {
+    const existingDialog = document.getElementById('keyword-dialog');
+    if (existingDialog) {
+        closeDialog();
+    }
+}
 
 // Log when the script has finished loading
 console.log("SEO extension script loaded and observer started.");
